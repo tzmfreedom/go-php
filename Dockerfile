@@ -1,4 +1,4 @@
-FROM golang:1.10-stretch
+FROM golang:1.17-stretch
 
 # The full PHP version to target, i.e. "7.1.10".
 ARG PHP_VERSION
@@ -55,5 +55,7 @@ RUN set -xe && \
     apt-get update && apt-get install -y --no-install-recommends ${RUNTIME_DEPS} && \
     cd ${PHP_SRC_DIR} && make -j "$(nproc)" PHP_SAPI=embed install-sapi install-headers && \
     cd / && rm -Rf ${PHP_BASE_DIR} ${PHP_SRC_DIR}
+
+RUN apt-get install -y vim ca-certificates
 
 ENTRYPOINT ["/bin/sh", "-c"]
